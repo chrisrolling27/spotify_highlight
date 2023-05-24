@@ -12,14 +12,15 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["http://localhost:3000/", "activeTab", "scripting", "tabs"],
+  "permissions": ["activeTab", "scripting", "tabs"],
   "action": {
     "default_popup": "popup.html"
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"]
+      "js": ["contentScript.js"],
+      "run_at": "document_idle"
     }
   ]
 }
