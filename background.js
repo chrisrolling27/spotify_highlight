@@ -19,5 +19,6 @@ chrome.action.onClicked.addListener((tab) => {
 // sending the selected text to the popup
 chrome.runtime.onConnect.addListener((port) => {
   console.assert(port.name == "popup");
+  console.log(selectedText);
   port.postMessage({text: selectedText});
 });
