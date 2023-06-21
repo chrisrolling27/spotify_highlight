@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 const querystring = require("querystring");
 const axios = require("axios");
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 dotenv.config();
 app.use(express.json());
@@ -53,7 +53,7 @@ app.get("/callback", (req, res) => {
     }),
     headers: {
       "content-type": "application/x-www-form-urlencoded",
-      Authorization: `Basic ${new Buffer.from(
+      Authorization: `Basic ${Buffer.from(
         `${CLIENT_ID}:${CLIENT_SECRET}`
       ).toString("base64")}`,
     },
@@ -95,7 +95,7 @@ app.get("/refresh_token", (req, res) => {
     }),
     headers: {
       "content-type": "application/x-www-form-urlencoded",
-      Authorization: `Basic ${new Buffer.from(
+      Authorization: `Basic ${Buffer.from(
         `${CLIENT_ID}:${CLIENT_SECRET}`
       ).toString("base64")}`,
     },
@@ -111,3 +111,8 @@ app.get("/refresh_token", (req, res) => {
 app.listen(port, () => {
   console.log(`server listening to http://localhost:${port}`);
 });
+
+
+//state validation with cookie?
+//change spotify scopes for actual use
+//me endpoint to become useful 
