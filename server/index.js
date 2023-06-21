@@ -108,6 +108,26 @@ app.get("/refresh_token", (req, res) => {
     });
 });
 
+
+app.get("/example", (req, res) => {
+  
+  let url = `https://api.spotify.com/v1/search?q=${query}&type=track&market=US&limit=${listamount}`;
+
+  let query = "Kendrick%20Lamar%20Swimming%20Pools";
+
+  const queryParams = querystring.stringify({
+    client_id: CLIENT_ID,
+    response_type: "code",
+    redirect_uri: REDIRECT_URI,
+    state: state,
+    scope: scope,
+  });
+
+  res.send(data);
+});
+
+
+
 app.listen(port, () => {
   console.log(`server listening to http://localhost:${port}`);
 });
@@ -116,3 +136,9 @@ app.listen(port, () => {
 //state validation with cookie?
 //change spotify scopes for actual use
 //me endpoint to become useful 
+
+//popup extension app to conduct this login process
+
+//add to playlist functionality 
+
+//purpose of this backend: login to user's spotify account, give permissions, refresh tokens, do something with database
