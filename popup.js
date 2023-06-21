@@ -13,7 +13,9 @@ port.onMessage.addListener((message) => {
 
   let listamount = 3;
 
-  let url = `https://api.spotify.com/v1/search?q=${query}&type=track&market=US&limit=${listamount}`;
+  //let url = `https://api.spotify.com/v1/search?q=${query}&type=track&market=US&limit=${listamount}`;
+  let url = `http://localhost:3000/example`;
+
 
   fetch(url, {
     method: 'GET',
@@ -22,6 +24,7 @@ port.onMessage.addListener((message) => {
       "Content-Type": "application/json",
     }
   })
+
     .then((response) => response.json())
     .then((data) => {
       if (data && data.tracks && data.tracks.items) {
