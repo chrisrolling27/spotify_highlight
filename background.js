@@ -3,12 +3,12 @@ let selectedText = "";
 // 50 minutes in milliseconds
 const refreshTokenInterval = 50 * 60 * 1000;
 
-chrome.runtime.onInstalled.addListener((details) => {
-  if (details.reason === "install") {
-    const authUrl = "http://localhost:3000/login"; // The URL where your server handles Spotify login.
-    chrome.tabs.create({ url: authUrl });
-  }
-});
+// chrome.runtime.onInstalled.addListener((details) => {
+//   if (details.reason === "install") {
+//     const authUrl = "http://localhost:3000/login"; // The URL where your server handles Spotify login.
+//     chrome.tabs.create({ url: authUrl });
+//   }
+// });
 
 // listening to messages from content script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -36,10 +36,9 @@ chrome.runtime.onConnect.addListener((port) => {
   port.postMessage({ text: selectedText });
 });
 
+//not sure why this exists and may be removed
 // const fetchToken = () => {
-
 //   const url = "localhost:3000/
-
 //   fetch(url)
 //     .then(response => response.json())
 //     .then(data => {
@@ -50,7 +49,6 @@ chrome.runtime.onConnect.addListener((port) => {
 //       console.error("Error fetching token:", error);
 //     });
 // };
-
 // // Fetch token initially
 // fetchToken();
 
