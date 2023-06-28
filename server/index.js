@@ -23,6 +23,10 @@ const generateRandomString = (length) => {
   return text;
 };
 
+app.get("/", (req, res) => {
+  res.send('server index.js running!');
+});
+
 app.get("/login", (req, res) => {
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
@@ -111,9 +115,11 @@ app.get("/refresh_token", (req, res) => {
 
 app.get("/example", (req, res) => {
   
+  let query = "Kendrick%20Lamar%20Swimming%20Pools";
+
   let url = `https://api.spotify.com/v1/search?q=${query}&type=track&market=US&limit=${listamount}`;
 
-  let query = "Kendrick%20Lamar%20Swimming%20Pools";
+  
 
   const queryParams = querystring.stringify({
     client_id: CLIENT_ID,

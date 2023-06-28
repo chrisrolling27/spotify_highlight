@@ -47,3 +47,14 @@ port.onMessage.addListener((message) => {
       }
     });
 });
+
+//popup.html button
+
+document.addEventListener('DOMContentLoaded', () => {
+  const loginButton = document.getElementById('login-button');
+  
+  loginButton.addEventListener('click', () => {
+      const authUrl = 'http://localhost:3000/login';
+      chrome.tabs.create({ url: authUrl });
+  });
+});
