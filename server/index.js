@@ -133,12 +133,3 @@ app.listen(port, () => {
 });
 
 
-//state validation with cookie?
-//change spotify scopes for actual use
-//me endpoint to become useful 
-
-//popup extension app to conduct this login process
-
-//add to playlist functionality 
-
-//purpose of this backend: login to user's spotify account, give permissions, refresh tokens, do something with database

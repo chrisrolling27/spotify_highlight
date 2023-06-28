@@ -5,7 +5,6 @@ const refreshTokenInterval = 50 * 60 * 1000;
 
 chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason === "install") {
-    
     const authUrl = "http://localhost:3000/login"; // The URL where your server handles Spotify login.
     chrome.tabs.create({ url: authUrl });
   }
