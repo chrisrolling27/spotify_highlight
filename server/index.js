@@ -70,17 +70,25 @@ app.get("/callback", (req, res) => {
       if (response.status === 200) {
         const { access_token } = response.data;
 
-        // Send a script to set access_token in localStorage
+        // Send a page to set access_token in localStorage
         res.send(`
-          <script>
-            localStorage.setItem('access_token', '${access_token}');
-            window.location.href = '/success'; // Redirect to success page
-          </script>
-        `);
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Token Handler</title>
+            <script>
+              localStorage.setItem('access_token', '${access_token}');
+              window.location.href = '/success'; // Redirect to success page
+            </script>
+          </head>
+          <body></body>
+        </html>
+      `);
       } else {
         res.send(response);
       }
     })
+
     .catch((error) => {
       res.send(error);
     });
