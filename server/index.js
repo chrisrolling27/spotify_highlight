@@ -24,7 +24,11 @@ const generateRandomString = (length) => {
 };
 
 app.get("/", (req, res) => {
-  res.send('server index.js running!');
+  res.send("server index.js running!");
+});
+
+app.get("/success", (req, res) => {
+  res.send("success endpoint hit!");
 });
 
 app.get("/login", (req, res) => {
@@ -64,20 +68,15 @@ app.get("/callback", (req, res) => {
   })
     .then((response) => {
       if (response.status === 200) {
-        const { access_token, token_type } = response.data;
+        const { access_token } = response.data;
 
-        axios
-          .get("https://api.spotify.com/v1/me", {
-            headers: {
-              Authorization: `${token_type} ${access_token}`,
-            },
-          })
-          .then((response) => {
-            res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
-          })
-          .catch((error) => {
-            res.send(error);
-          });
+        // Send a script to set access_token in localStorage
+        res.send(`
+          <script>
+            localStorage.setItem('access_token', '${access_token}');
+            window.location.href = '/success'; // Redirect to success page
+          </script>
+        `);
       } else {
         res.send(response);
       }
@@ -112,30 +111,31 @@ app.get("/refresh_token", (req, res) => {
     });
 });
 
-
 app.get("/example", (req, res) => {
-  
   let query = "Kendrick%20Lamar%20Swimming%20Pools";
+
+  let listamount = 3;
 
   let url = `https://api.spotify.com/v1/search?q=${query}&type=track&market=US&limit=${listamount}`;
 
-  
+  const spotifyHeaders = {
+    Authorization: "Bearer " + "YOUR_SPOTIFY_ACCESS_TOKEN",
+    "Content-Type": "application/json",
+  };
 
-  const queryParams = querystring.stringify({
-    client_id: CLIENT_ID,
-    response_type: "code",
-    redirect_uri: REDIRECT_URI,
-    state: state,
-    scope: scope,
-  });
-
-  res.send(data);
+  axios
+    .get(url, { headers: spotifyHeaders })
+    .then((response) => {
+      res.json(response.data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      res
+        .status(500)
+        .json({ error: "An error occurred while fetching data from Spotify" });
+    });
 });
-
-
 
 app.listen(port, () => {
   console.log(`server listening to http://localhost:${port}`);
 });
-
-

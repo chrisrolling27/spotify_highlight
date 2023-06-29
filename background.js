@@ -36,21 +36,21 @@ chrome.runtime.onConnect.addListener((port) => {
   port.postMessage({ text: selectedText });
 });
 
-//not sure why this exists and may be removed
-// const fetchToken = () => {
-//   const url = "localhost:3000/
-//   fetch(url)
-//     .then(response => response.json())
-//     .then(data => {
-//       // Save the token in chrome storage
-//       chrome.storage.local.set({accessToken: data.access_token});
-//     })
-//     .catch(error => {
-//       console.error("Error fetching token:", error);
-//     });
-// };
-// // Fetch token initially
-// fetchToken();
 
-// // Set up periodic token refresh
-// setInterval(fetchToken, refreshTokenInterval);
+const fetchToken = () => {
+  const url = "localhost:3000/callback
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      // Save the token in chrome storage
+      chrome.storage.local.set({accessToken: data.access_token});
+    })
+    .catch(error => {
+      console.error("Error fetching token:", error);
+    });
+};
+// Fetch token initially
+fetchToken();
+
+// Set up periodic token refresh
+setInterval(fetchToken, refreshTokenInterval);
