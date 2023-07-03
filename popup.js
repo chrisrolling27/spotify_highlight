@@ -93,12 +93,42 @@ document.addEventListener("DOMContentLoaded", () => {
 //     });
 // });
 
+chrome.storage.local.set({ accessToken: "xxx" });
+
 //popup.html button
 document.addEventListener("DOMContentLoaded", () => {
-  const loginButton = document.getElementById("login-button");
+  const spotifyButton = document.getElementById("spotify-button");
+  const trackContainer = document.getElementById("track-container");
 
-  loginButton.addEventListener("click", () => {
-    const authUrl = "http://localhost:3000/login";
-    chrome.tabs.create({ url: authUrl });
+  spotifyButton.addEventListener("click", () => {
+    // Fetch the "name" from chrome.storage.local
+    chrome.storage.local.get(["accessToken"], (result) => {
+
+      const accessToken = result.accessToken;
+      const exampleURL = "http://localhost:3000/example";
+
+      // Fetch data from the exampleURL
+      fetch(exampleURL, {
+        headers: {
+          "access": accessToken,
+        },
+      })
+        .then((response) => {
+          // Parse the response as JSON
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Failed to load data");
+          }
+        })
+        .then((data) => {
+          // Use the JSON data to display in the trackContainer
+          trackContainer.innerHTML = JSON.stringify(data, null, 2);
+        })
+        .catch((error) => {
+          console.error("Error fetching data: ", error);
+          trackContainer.innerHTML = "Failed to load data";
+        });
+    });
   });
 });
