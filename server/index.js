@@ -67,20 +67,26 @@ app.get("/callback", (req, res) => {
     },
   })
     .then((response) => {
-      if (response.status === 200) {
-        const { access_token } = response.data;
-        const frontendRedirectUrl = `chrome-extension://jpdgpaojobkhdnifljehhadpjkcmjcej/callback.html#access_token=${access_token}`; // Replace EXTENSION_ID with your Chrome extension ID
-        res.redirect(frontendRedirectUrl);
-      } else {
-        res.send(response);
-      }
+      const accessToken = response.data.access_token;
+      const html = `
+        <html>
+        Hopefully ur stupid access token is here
+          <script>
+          console.log('hello mom?');
+
+          //chrome.storage.local.set({'spotify_access_token': '${accessToken}'}, () => {
+            //  console.log(chrome.storage.local.spotify_access_token);
+              //window.close();
+
+          </script>
+        </html>`;
+      res.send(html);
     })
-    .catch(error => {
-      console.log('Error occurred', error);
-      res.status(500).send('Error occurred during token fetching');
+    .catch((error) => {
+      console.log("Error occurred", error);
+      res.status(500).send("Error occurred during token fetching");
     });
 });
-
 
 app.get("/refresh_token", (req, res) => {
   const { refresh_token } = req.query;

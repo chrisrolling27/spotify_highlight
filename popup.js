@@ -94,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // });
 
 //popup.html button
-
 document.addEventListener("DOMContentLoaded", () => {
   const loginButton = document.getElementById("login-button");
 
