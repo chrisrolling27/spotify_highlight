@@ -69,32 +69,18 @@ app.get("/callback", (req, res) => {
     .then((response) => {
       if (response.status === 200) {
         const { access_token } = response.data;
-        res.send(`
-        <!DOCTYPE html>
-          <html>
-      <head>
-        <title>Token Handler</title>
-        <script>
-          window.addEventListener('message', event => {
-            if (event.source !== window) return;
-            if (event.data.type && (event.data.type === 'REQUEST_TOKEN')) {
-              window.postMessage({ type: 'ACCESS_TOKEN', token: '${access_token}' }, '*');
-            }
-          });
-        </script>
-      </head>
-      <body></body>
-    </html>
-      `);
+        const frontendRedirectUrl = `chrome-extension://jpdgpaojobkhdnifljehhadpjkcmjcej/callback.html#access_token=${access_token}`; // Replace EXTENSION_ID with your Chrome extension ID
+        res.redirect(frontendRedirectUrl);
       } else {
         res.send(response);
       }
     })
-
-    .catch((error) => {
-      res.send(error);
+    .catch(error => {
+      console.log('Error occurred', error);
+      res.status(500).send('Error occurred during token fetching');
     });
 });
+
 
 app.get("/refresh_token", (req, res) => {
   const { refresh_token } = req.query;
