@@ -119,7 +119,7 @@ app.get("/example", (req, res) => {
   let url = `https://api.spotify.com/v1/search?q=${query}&type=track&market=US&limit=${listamount}`;
 
   let accessToken = req.headers['access'];
-  console.log('name header:', accessToken);
+  console.log('accesstoken header:', accessToken);
 
   const spotifyHeaders = {
     Authorization: "Bearer " + `${accessToken}`,
