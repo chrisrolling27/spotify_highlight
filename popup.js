@@ -2,7 +2,53 @@ let port = chrome.runtime.connect({ name: "popup" });
 
 chrome.storage.local.set({ accessToken: "xxx" });
 
-//spotify /example pinger 
+chrome.storage.local.set({ phrase: "apples" });
+
+//tester secretwish button sequence
+document.addEventListener("DOMContentLoaded", () => {
+  const testerButton = document.getElementById("tester-button");
+  const testerContainer = document.getElementById("tester-container");
+  const testerContainer2 = document.getElementById("tester-container2");
+
+  testerButton.addEventListener("click", () => {
+    const exampleURL = "http://localhost:3000/tester";
+
+    // Fetch data from the exampleURL
+
+    chrome.storage.local.get(["phrase"], (result) => {
+      fetch(exampleURL, {
+        headers: {
+          phrase: result.phrase,
+        },
+      })
+        .then((response) => {
+          // Parse the response as JSON
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Failed to load data");
+          }
+        })
+        .then((data) => {
+          // Use the JSON data to display in the testerContainer
+          testerContainer.innerHTML = JSON.stringify(data.phrase);
+
+          chrome.storage.local.set({ phrase: data.phrase });
+
+          chrome.storage.local.get("phrase", function (data) {
+            testerContainer2.innerHTML = "cinnamon";
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching data: ", error);
+          testerContainer.innerHTML = "Failed to load data";
+        });
+    });
+  });
+});
+//end of tester secretwish button
+
+//spotify example pinger
 document.addEventListener("DOMContentLoaded", () => {
   const spotifyButton = document.getElementById("spotify-button");
   const trackContainer = document.getElementById("track-container");
@@ -10,14 +56,13 @@ document.addEventListener("DOMContentLoaded", () => {
   spotifyButton.addEventListener("click", () => {
     // Fetch the "name" from chrome.storage.local
     chrome.storage.local.get(["accessToken"], (result) => {
-
       const accessToken = result.accessToken;
       const exampleURL = "http://localhost:3000/example";
 
       // Fetch data from the exampleURL
       fetch(exampleURL, {
         headers: {
-          "access": accessToken,
+          access: accessToken,
         },
       })
         .then((response) => {
@@ -39,10 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
-
-
-
 
 //real listener that takes message from highlighted text to the backend.
 // port.onMessage.addListener((message) => {

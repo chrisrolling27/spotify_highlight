@@ -74,9 +74,13 @@ app.get("/callback", (req, res) => {
           <script>
           console.log('hello mom?');
 
-          //chrome.storage.local.set({'spotify_access_token': '${accessToken}'}, () => {
-            //  console.log(chrome.storage.local.spotify_access_token);
-              //window.close();
+          chrome.storage.local.set({'spotify_access_token': '${accessToken}'}, () => {
+             console.log('Token stored.');
+             chrome.storage.local.get('spotify_access_token', function(result) {
+                console.log('Value currently is ' + result.spotify_access_token);
+             });
+             window.close();
+          });
 
           </script>
         </html>`;
@@ -86,6 +90,18 @@ app.get("/callback", (req, res) => {
       console.log("Error occurred", error);
       res.status(500).send("Error occurred during token fetching");
     });
+});
+
+//tester endpoint
+app.get("/tester", (req, res) => {
+  console.log("tester endpoint hit");
+
+  let phrase = req.headers.phrase;
+  console.log("phrase: ", phrase);
+
+  let stuff = { phrase: "bananas2" };
+
+  res.send(stuff);
 });
 
 app.get("/refresh_token", (req, res) => {
@@ -118,28 +134,27 @@ app.get("/example", (req, res) => {
   let listamount = 3;
   let url = `https://api.spotify.com/v1/search?q=${query}&type=track&market=US&limit=${listamount}`;
 
-  let accessToken = req.headers['access'];
-  console.log('accesstoken header:', accessToken);
+  let accessToken = req.headers["access"];
+  console.log("accesstoken header:", accessToken);
 
-  const spotifyHeaders = {
-    Authorization: "Bearer " + `${accessToken}`,
-    "Content-Type": "application/json",
-  };
+  // const spotifyHeaders = {
+  //   Authorization: "Bearer " + `${accessToken}`,
+  //   "Content-Type": "application/json",
+  // };
 
-  axios
-    .get(url, { headers: spotifyHeaders })
-    .then((response) => {
-      res.json(response.data);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      res
-        .status(500)
-        .json({ error: "An error occurred while fetching data from Spotify" });
-    });
+  // axios
+  //   .get(url, { headers: spotifyHeaders })
+  //   .then((response) => {
+  //     res.json(response.data);
+  //   })
+  //   .catch((error) => {
+  //     console.error("Error:", error);
+  //     res
+  //       .status(500)
+  //       .json({ error: "An error occurred while fetching data from Spotify" });
+  //   });
 });
 
 app.listen(port, () => {
   console.log(`server listening to http://localhost:${port}`);
 });
-
