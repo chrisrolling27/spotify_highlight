@@ -31,7 +31,10 @@ app.get("/success", (req, res) => {
   res.send("success endpoint hit!");
 });
 
+
 app.get("/login", (req, res) => {
+  console.log("login endpoint hit");
+  
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
 
@@ -44,7 +47,6 @@ app.get("/login", (req, res) => {
     state: state,
     scope: scope,
   });
-
   res.redirect(`https://accounts.spotify.com/authorize?${queryParams}`);
 });
 
@@ -72,7 +74,8 @@ app.get("/callback", (req, res) => {
         <html>
         Hopefully ur stupid access token is here
           <script>
-          console.log('hello mom?');
+          console.log('hello?');
+          console.log(${accessToken});
 
           chrome.storage.local.set({'spotify_access_token': '${accessToken}'}, () => {
              console.log('Token stored.');
@@ -84,7 +87,7 @@ app.get("/callback", (req, res) => {
 
           </script>
         </html>`;
-      res.send(html);
+        res.json({ accessToken });
     })
     .catch((error) => {
       console.log("Error occurred", error);
@@ -92,17 +95,6 @@ app.get("/callback", (req, res) => {
     });
 });
 
-//tester endpoint
-app.get("/tester", (req, res) => {
-  console.log("tester endpoint hit");
-
-  let phrase = req.headers.phrase;
-  console.log("phrase: ", phrase);
-
-  let stuff = { phrase: "bananas2" };
-
-  res.send(stuff);
-});
 
 app.get("/refresh_token", (req, res) => {
   const { refresh_token } = req.query;
@@ -158,3 +150,20 @@ app.get("/example", (req, res) => {
 app.listen(port, () => {
   console.log(`server listening to http://localhost:${port}`);
 });
+
+
+
+
+
+
+//tester endpoint
+// app.get("/tester", (req, res) => {
+//   console.log("tester endpoint hit");
+
+//   let phrase = req.headers.phrase;
+//   console.log("phrase: ", phrase);
+
+//   let stuff = { phrase: "bananas2" };
+
+//   res.send(stuff);
+// });

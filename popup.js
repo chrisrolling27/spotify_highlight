@@ -1,52 +1,19 @@
 let port = chrome.runtime.connect({ name: "popup" });
 
-chrome.storage.local.set({ accessToken: "xxx" });
+chrome.storage.local.set({
+  accessToken:
+    "xxx",
+});
 
-chrome.storage.local.set({ phrase: "apples" });
-
-//tester secretwish button sequence
+//login button
 document.addEventListener("DOMContentLoaded", () => {
-  const testerButton = document.getElementById("tester-button");
-  const testerContainer = document.getElementById("tester-container");
-  const testerContainer2 = document.getElementById("tester-container2");
-
-  testerButton.addEventListener("click", () => {
-    const exampleURL = "http://localhost:3000/tester";
-
-    // Fetch data from the exampleURL
-
-    chrome.storage.local.get(["phrase"], (result) => {
-      fetch(exampleURL, {
-        headers: {
-          phrase: result.phrase,
-        },
-      })
-        .then((response) => {
-          // Parse the response as JSON
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw new Error("Failed to load data");
-          }
-        })
-        .then((data) => {
-          // Use the JSON data to display in the testerContainer
-          testerContainer.innerHTML = JSON.stringify(data.phrase);
-
-          chrome.storage.local.set({ phrase: data.phrase });
-
-          chrome.storage.local.get("phrase", function (data) {
-            testerContainer2.innerHTML = "cinnamon";
-          });
-        })
-        .catch((error) => {
-          console.error("Error fetching data: ", error);
-          testerContainer.innerHTML = "Failed to load data";
-        });
-    });
+  const loginButton = document.getElementById("login-button");
+  loginButton.addEventListener("click", () => {
+    const loginEndpoint = "http://localhost:3000/login";
+    window.open(loginEndpoint, "_blank");
   });
 });
-//end of tester secretwish button
+
 
 //spotify example pinger
 document.addEventListener("DOMContentLoaded", () => {
@@ -130,4 +97,78 @@ document.addEventListener("DOMContentLoaded", () => {
 //test highlighter
 // port.onMessage.addListener((message) => {
 //     document.body.innerHTML = message.text;
+// });
+
+//tester secretwish button sequence
+// document.addEventListener("DOMContentLoaded", () => {
+//   const testerButton = document.getElementById("tester-button");
+//   const testerContainer = document.getElementById("tester-container");
+//   const testerContainer2 = document.getElementById("tester-container2");
+
+//   testerButton.addEventListener("click", () => {
+//     const exampleURL = "http://localhost:3000/tester";
+
+//     // Fetch data from the exampleURL
+
+//     chrome.storage.local.get(["phrase"], (result) => {
+//       fetch(exampleURL, {
+//         headers: {
+//           phrase: result.phrase,
+//         },
+//       })
+//         .then((response) => {
+//           // Parse the response as JSON
+//           if (response.ok) {
+//             return response.json();
+//           } else {
+//             throw new Error("Failed to load data");
+//           }
+//         })
+//         .then((data) => {
+//           // Use the JSON data to display in the testerContainer
+//           testerContainer.innerHTML = JSON.stringify(data.phrase);
+
+//           chrome.storage.local.set({ phrase: data.phrase });
+
+//           chrome.storage.local.get("phrase", function (data) {
+//             testerContainer2.innerHTML = "cinnamon";
+//           });
+//         })
+//         .catch((error) => {
+//           console.error("Error fetching data: ", error);
+//           testerContainer.innerHTML = "Failed to load data";
+//         });
+//     });
+//   });
+// });
+//end of tester secretwish button
+
+//old login button you probably dont want
+// document.addEventListener("DOMContentLoaded", () => {
+//   const loginButton = document.getElementById("login-button");
+//   const trackContainer = document.getElementById("track-container");
+
+//   loginButton.addEventListener("click", () => {
+//     const loginEndpoint = "http://localhost:3000/login";
+
+//     fetch(loginEndpoint)
+//       .then((response) => {
+//         if (response.ok) {
+//           return response.json();
+//         } else {
+//           throw new Error("Failed to load data");
+//         }
+//       })
+//       .then((data) => {
+
+//         trackContainer.innerHTML = data.accessToken;
+
+//         chrome.storage.local.set({ token: data.accessToken });
+
+//       })
+//       .catch((error) => {
+//         console.error("Error fetching data: ", error);
+//         trackContainer.innerHTML = error;
+//       });
+//   });
 // });
