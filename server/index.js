@@ -70,24 +70,7 @@ app.get("/callback", (req, res) => {
   })
     .then((response) => {
       const accessToken = response.data.access_token;
-      const html = `
-        <html>
-        Hopefully ur stupid access token is here
-          <script>
-          console.log('hello?');
-          console.log(${accessToken});
-
-          chrome.storage.local.set({'spotify_access_token': '${accessToken}'}, () => {
-             console.log('Token stored.');
-             chrome.storage.local.get('spotify_access_token', function(result) {
-                console.log('Value currently is ' + result.spotify_access_token);
-             });
-             window.close();
-          });
-
-          </script>
-        </html>`;
-        res.json({ accessToken });
+      res.json({ accessToken });
     })
     .catch((error) => {
       console.log("Error occurred", error);
