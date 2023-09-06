@@ -1,19 +1,5 @@
 let selectedText = "";
 
-// 50 minutes in milliseconds
-const refreshTokenInterval = 50 * 60 * 1000;
-
-chrome.action.onClicked.addListener(function() {
-  chrome.tabs.create({url: 'index.html'});
-});
-
-// chrome.runtime.onInstalled.addListener((details) => {
-//   if (details.reason === "install") {
-//     const authUrl = "http://localhost:3000/login"; // The URL where your server handles Spotify login.
-//     chrome.tabs.create({ url: authUrl });
-//   }
-// });
-
 // listening to messages from content script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   selectedText = request.text; // save the selected text

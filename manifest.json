@@ -13,12 +13,12 @@
     "service_worker": "background.js"
   },
   "host_permissions": ["http://localhost:3000/*"],
-  "permissions": ["storage", "activeTab", "scripting", "tabs", "cookies, identity"],
+  "permissions": ["storage", "activeTab", "scripting", "tabs", "identity"],
   "action": {
     "default_popup": "popup.html",
     "default_title": "Spotify Highlight"
   },
-  "key": "googleKEY",
+  
   "content_scripts": [
     {
       "matches": ["<all_urls>"],

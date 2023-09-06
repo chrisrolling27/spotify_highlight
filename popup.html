@@ -6,8 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Popup</title>
     <script src="popup.js" defer></script>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 10px;
+        text-align: center;
+      }
+      h3 {
+        color: #333;
+      }
+      button {
+        background-color: #1db954; /* Spotify Green */
+        color: white;
+        border: none;
+        border-radius: 25px;
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #1ed760;
+      }
+      #track-container {
+        margin-top: 20px;
+      }
+    </style>
   </head>
   <body>
+    <h3>This is a Spotify app baby!</h3>
     <button id="login-button">Log in with Spotify</button>
     <button id="spotify-button">Talk to Spotify</button>
     <div id="track-container"></div>
