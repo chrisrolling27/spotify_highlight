@@ -1,38 +1,17 @@
-let selectedText = "";
+const client_id = '8ef6dbd924b0409096d71efaf570610e';
+const redirect_url = chrome.identity.getRedirectURL();
 
-// listening to messages from content script
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  selectedText = request.text; // save the selected text
-});
+console.log('start of background.js');
 
-chrome.action.onClicked.addListener((tab) => {
-  chrome.scripting.executeScript(
-    {
-      target: { tabId: tab.id },
-      files: ["contentScript.js"],
-    },
-    () => {
-      if (chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError.message);
-      }
-    }
-  );
-});
-
-// sending the selected text to the popup
-chrome.runtime.onConnect.addListener((port) => {
-  console.assert(port.name == "popup");
-  console.log(selectedText);
-  port.postMessage({ text: selectedText });
-});
-
-//new
+//new onInstalled
 chrome.runtime.onInstalled.addListener(function() {
+  console.log('here?');
   getSpotifyToken();
 });
 
 function getSpotifyToken() {
-  const CLIENT_ID = process.env.CLIENT_ID;
+  console.log('here2');
+  const clientId = '8ef6dbd924b0409096d71efaf570610e';
   const redirectUri = chrome.identity.getRedirectURL('callback');
   const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=playlist-read-private`;
 
@@ -63,7 +42,41 @@ function getSpotifyToken() {
 
 
 
+chrome.action.onClicked.addListener((tab) => {
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    code: "console.log('Clicked!');"
+  });
+});
 
+
+let selectedText = "";
+// listening to messages from content script
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  selectedText = request.text; // save the selected text
+});
+
+chrome.action.onClicked.addListener((tab) => {
+  
+  chrome.scripting.executeScript(
+    {
+      target: { tabId: tab.id },
+      files: ["contentScript.js"],
+    },
+    () => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError.message);
+      }
+    }
+  );
+});
+
+// sending the selected text to the popup
+chrome.runtime.onConnect.addListener((port) => {
+  console.assert(port.name == "popup");
+  //console.log(selectedText);
+  port.postMessage({ text: selectedText });
+});
 
 
 

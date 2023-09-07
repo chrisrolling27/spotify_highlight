@@ -12,7 +12,7 @@
   "background": {
     "service_worker": "background.js"
   },
-  "host_permissions": ["http://localhost:3000/*"],
+  "host_permissions": ["<all_urls>"],
   "permissions": ["storage", "activeTab", "scripting", "tabs", "identity"],
   "action": {
     "default_popup": "popup.html",
